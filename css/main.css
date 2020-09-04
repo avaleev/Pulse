@@ -1,0 +1,23 @@
+html, body {
+  background-color: #fff;
+  color: #2e2e2e;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+nav {
+  position: fixed;
+}
+
+section#home {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+section#home > canvas#pulse-logo {
+  transition: all 0.2s ease 0s;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

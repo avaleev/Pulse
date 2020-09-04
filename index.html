@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Simple heartbeat cardiogram-like animation class" />
+    <meta name="keywords" content="pulse, animation, canvas" />
+    <meta name="author" content="Anton Valeev" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pulse</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
+  </head>
+  <body>
+    <section id="home">
+      <canvas id="pulse-logo"></canvas>
+    </section>
+    <script type="text/javascript" src="./js/pulse.js"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        const logoCanvas = document.getElementById('pulse-logo');
+        const pulse = new Pulse(logoCanvas, {
+          markup: PULSE_DEFAULT.author,
+          density: 10,
+          weight: 2.5,
+          trailed: true,
+          animated: true,
+          interval: 8,
+        });
+      }
+    </script>
+  </body>
+</html>
