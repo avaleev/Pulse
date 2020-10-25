@@ -5,10 +5,41 @@ const PULSE_DEFAULT = Object.freeze({
   author: [0.2, -0.333, 1.0, -0.333, 0.2, 0, 0, -0.2, 0.333, -1.0, 0.333, -0.2],
 });
 
+/**
+ * Pulse Object Class - initiates a Pulse animated canvas image
+ * @argument canvas - <canvas> DOM element to embed into
+ * @argument config
+ * {
+ * 
+ *   markup: number[] (default: PULSE_DEFAULT.pulse) - list of numbers in the range of -1.0 to 1.0 that defines positions of the graph spikes
+ *   
+ *   distribution: number (default: 2.5) - pixel distribution of the graph's points (the bigger the number the longer the graph will be)
+ *   
+ *   height: number (default: canvas.height) - pixel height of the graph
+ * 
+ *   repeat: number (default: 1) - number of markup repetitions through the graph
+ * 
+ *   trailed: boolean (default: false) - if the previous iteration should leave a trail ahead of the current iteration
+ * 
+ *   animated: boolean (default: false) - if the graph should have a pulsation animation
+ * 
+ *   speed: number (default: 50) - speed of the pulsation animation
+ * 
+ *   weight: number (default: 5) - pixel weight of the graph line
+ * 
+ *   color: string | HEX-string | RGB(A)-string | HLS(A)-string (default: 'rgba(0, 0, 0, 1)') - color of the graph line
+ * 
+ *   trailingColor: string | HEX-string | RGB(A)-string | HLS(A)-string (default: 'rgba(0, 0, 0, 0)') - color that the graph line gradients to
+ * 
+ *   interval: number (default: 4) - number of 0.0 points around the grapg and in between of markup repetitions if repeat > 1
+ * 
+ * }
+ * @author Anton Valeev
+ */
 class Pulse {
   constructor(canvas, {
     markup = PULSE_DEFAULT.pulse,
-    density = 2.5,
+    distribution = 2.5,
     height = undefined,
     repeat = 1,
     trailed = false,
@@ -22,7 +53,7 @@ class Pulse {
     this.canvas = canvas;
     this.markup = markup;
     this.repeat = repeat;
-    this.density = density;
+    this.distribution = distribution;
     this.height = height;
     this.trailed = trailed;
     this.animated = animated;
@@ -40,7 +71,7 @@ class Pulse {
       Pulse.repeatAndSurround(this.markup, this.repeat, this.interval) :
       Pulse.surround(this.markup, this.interval);
 
-    this.canvas.width = (this.markup.length - 1) * this.density;
+    this.canvas.width = (this.markup.length - 1) * this.distribution;
     if (this.height !== undefined) this.canvas.height = this.height;
 
     if (this.animated) {
@@ -82,7 +113,7 @@ class Pulse {
     let x, y;
 
     for (let i = 0; i < this.markup.length; ++i) {
-      x = this.density * i;
+      x = this.distribution * i;
       y = (this.canvas.height / 2) - ((this.canvas.height / 2) * this.markup[i]);
 
       if (i === 0) {
@@ -95,7 +126,7 @@ class Pulse {
   }
 
   setWidth(width) {
-    this.density = width / (this.markup.length - 1);
+    this.distribution = width / (this.markup.length - 1);
     this.canvas.width = width;
   }
 
